@@ -1,0 +1,170 @@
+/* Responsive Layout */
+.responsiveContainer {
+    min-height: 100vh;
+    /* background-color:rgb(0, 102, 255); */
+}
+.mainContent{}
+.sidebar {
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.mobileSidebarVisible {
+    left: 0 !important;
+}
+
+.sidebarToggle {
+    display: none;
+    position: fixed;
+    top: 26px;
+    left: 10px;
+    z-index: 1100;
+}
+
+.brandTitle {
+    color: white;
+    text-align: center;
+    padding: 16px;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sidebarMenu {
+    height: calc(100vh - 120px);
+    overflow: auto;
+}
+
+.header {
+    background: white;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 80px;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    margin-left:15px;
+}
+
+.logo {
+    max-height: 60px;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    margin-right:15px;
+
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.userDetails {
+    display: flex;
+    align-items: center;
+}
+
+.userDetails span {
+    margin-right: 8px;
+}
+
+.content {
+    /* margin: 24px 16px; */
+    padding: 16px;
+    min-height: calc(100vh - 220px);
+    overflow: auto;
+}
+
+.footer {
+    text-align: center;
+    background: #f0f2f5;
+    padding: 16px 50px;
+}
+
+.sidebar {
+    position: fixed; /* Make the sidebar fixed */
+    left: 0; /* Align to the left */
+    top: 0; /* Align to the top */
+    height: 100%; /* Full height */
+    overflow-y: auto; /* Scroll if necessary */
+    z-index: 1000; /* Ensures it overlaps other content */
+}
+
+/* Ensure the main content starts to the right of the fixed sidebar */
+.mainContent {
+    margin-left: 190px; /* Adjust based on your sidebar width (for expanded) */
+    transition: margin-left 0.2s; /* Smooth transition for the margin */
+}
+
+.sidebar.collapsed + .mainContent {
+    margin-left: 80px; /* Adjust for collapsed sidebar */
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .brandTitle{
+        margin-top: 20px;
+        font-size: 14px;
+        float: right;
+    }
+    .sidebarToggle {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        left: -280px;
+        z-index: 1000;
+        transition: left 0.3s; /* Smooth transition for mobile */
+    }
+
+    .sidebar.mobileSidebarVisible {
+        left: 0; /* Show sidebar */
+    }
+
+    .mainContent {
+        margin-left: 0 !important; /* Remove margin for small screens */
+    }
+
+    .headerContent {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%; /* Adjust header for smaller screens */
+    }
+
+    .userSection {
+        width: 100%;
+        justify-content: flex-end;
+        /* position: fixed; */
+        margin-right: 20px;
+    }
+    .logoContainer{
+        display: none;
+    }
+}
+
+
