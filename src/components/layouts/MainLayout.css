@@ -1,6 +1,8 @@
 
 
-
+element.style {
+    background-color:red;
+}
 /* Responsive Layout */
 .responsiveContainer {
     min-height: 100vh;
@@ -38,7 +40,7 @@
 }
 
 .header {
-    background: white;
+    background: #f0f2f5;
     padding: 0 16px;
     display: flex;
     align-items: center;
@@ -130,5 +132,34 @@
         width: 100%;
         justify-content: flex-end;
         margin-top: 10px;
+    }
+}
+.user-page-container {
+    max-width: 100%;
+    padding: 20px; /* Padding for the container */
+}
+
+.loader-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .user-page-container {
+        padding: 10px; /* Reduced padding for smaller screens */
+    }
+
+    .ant-table {
+        overflow-x: auto; /* Allow horizontal scrolling */
+        display: block; /* Prevent table collapse */
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 2px 5px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #e6f7ff; /* Example background color for tags */
     }
 }

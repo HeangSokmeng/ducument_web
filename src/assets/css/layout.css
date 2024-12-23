@@ -1,0 +1,187 @@
+.author-page-container {
+    padding: 20px; /* Add padding to the main container */
+    max-width: 100%;
+}
+
+.loader-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .author-page-container {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    /* You may want to hide some columns on smaller screens */
+    /* You can achieve this through conditional rendering in the component */
+}
+
+.edit-button {
+    background-color: #1890ff; /* Replace with your desired color */
+    border-color: #1890ff;
+    color: white; /* Text color inside button */
+}
+
+.delete-button {
+    background-color: #ff4d4f; /* Replace with your desired color */
+    border-color: #ff4d4f;
+    color: white; /* Text color inside button */
+}
+
+/* Optional: Adding hover effects */
+.edit-button:hover {
+    background-color: #40a9ff; /* Darker shade on hover */
+}
+
+.delete-button:hover {
+    background-color: #ff7875; /* Darker shade on hover */
+}
+
+
+
+
+/* Loader styles (if you have specific styles, include here) */
+.loader-container {
+    text-align: center;
+    margin-top: 20px;
+}
+.modal-animate {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.modal-animate .ant-modal {
+    transform: scale(0.75); /* Start state for animation, for example */
+    opacity: 0; /* Start state for animation */
+}
+
+.modal-animate.open {
+    transform: scale(1); /* End state for animation */
+    opacity: 1; /* End state for animation */
+}
+
+
+/* AuthorPage.css */
+
+.ant-modal {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ant-modal-enter {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.ant-modal-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ant-modal-leave {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ant-modal-leave-active {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+/* AuthorPage.css */
+
+.modal-open {
+    overflow: hidden;
+}
+/* Add this to your existing CSS file or create a new CSS rule for modal */
+.modal-animate-enter {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-animate-enter-active {
+    opacity: 1;
+}
+
+.modal-animate-leave {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-animate-leave-active {
+    opacity: 0;
+}
+.role-page-container {
+    padding: 20px;
+    max-width: 100%;
+}
+
+.loader-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .role-page-container {
+        padding: 10px;
+    }
+
+    .edit-button, .delete-button {
+        width: 40px; /* Reduce button size for mobile */
+    }
+
+    /* Adjust column spacing */
+    .ant-table {
+        overflow-x: auto; /* Allow horizontal scrolling */
+        display: block; /* Make it block for proper behavior */
+    }
+}
+
+.edit-button {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: white;
+}
+
+.delete-button {
+    background-color: #ff4d4f;
+    border-color: #ff4d4f;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #40a9ff;
+}
+
+.delete-button:hover {
+    background-color: #ff7875;
+}
+
+/* Modal styles */
+.ant-modal {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ant-modal-enter {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.ant-modal-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ant-modal-leave {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ant-modal-leave-active {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.modal-open {
+    overflow: hidden;
+}
