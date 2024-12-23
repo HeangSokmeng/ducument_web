@@ -1,0 +1,83 @@
+/* Full page background */
+.login-page {
+    height: 100vh;
+    background-image: url('https://img.freepik.com/free-vector/gradient-glassmorphism-horizontal-banner_23-2149440109.jpg?t=st=1734370659~exp=1734374259~hmac=a8d39398e1ac7d3941367046b858f4fa75c0ecb007d18c521ed5ea1622527c4f&w=996');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Glass effect styling */
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+    border-radius: 10px;
+    padding: 30px;
+  }
+  
+  /* Card styling */
+  .login-card {
+    border-radius: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.5); /* Light transparent background */
+  }
+  
+  /* Input fields styling */
+  .input-field {
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Button styling */
+  .login-button {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+    color:black;
+  }
+  
+  /* Register link styling */
+  button[type="link"] {
+    color: #fff;
+  }
+  
+  button[type="link"]:hover {
+    color: #ff7f50; /* Slight orange hover effect */
+  }
+  
+  /* Title styling */
+  .ant-typography {
+    color: #fff; /* White color for title */
+  }
+  /* Add animation to notification */
+.ant-notification-notice {
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+.ant-notification-notice-leaving {
+    animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
