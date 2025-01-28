@@ -68,16 +68,18 @@ export default function RolePage() {
             okType: 'danger',
             cancelText: 'No',
             onOk: async () => {
+                startLoading(); // Start the loading indicator
                 try {
                     const res = await request(`superadmin/role/${item.id}`, 'delete');
                     if (res) {
                         getRoleList(currentPage, pageSize);
                         notification.success({ message: 'Role deleted successfully.' });
                     }
-                // eslint-disable-next-line no-unused-vars
                 } catch (error) {
-                    notification.error({ message: 'Failed to delete role.' });
+                    console.error('Delete role error:', error);  // Log the error for debugging
+                    notification.error({ message: 'Failed to delete role.', description: error.message || 'An unknown error occurred.' });
                 }
+                stopLoading(); // Stop the loading indicator
             },
         });
     };

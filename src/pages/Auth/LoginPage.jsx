@@ -23,6 +23,7 @@ export default function LoginPage() {
                 const routes = {
                     superadmin: '/home',
                     admin: '/home',
+                    teacher : '/home',
                     user: '/dashboard'
                 };
                 navigate(routes[res.data.account_type] || '/dashboard');

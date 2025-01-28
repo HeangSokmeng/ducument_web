@@ -73,6 +73,7 @@ export default function UserPage() {
     };
 
     const onClickDelete = (item) => {
+        console.log("Item to be deleted:", item); // Check what the whole item looks like
         Modal.confirm({
             title: 'Confirm Deletion',
             content: `Are you sure you want to delete the user "${item.username}"?`,
@@ -80,12 +81,17 @@ export default function UserPage() {
             okType: 'danger',
             cancelText: 'No',
             onOk: async () => {
-                const res = await request(`/user/${item.userId}`, 'delete');
-                if (res) {
-                    getUserList(currentPage, pageSize);
-                    notification.success({ message: 'User deleted successfully.' });
-                } else {
-                    notification.error({ message: 'Failed to delete user.' });
+                try {
+                    const res = await request(`superadmin/user/${item.id}`, 'delete'); // Use item.id
+                    console.log("Delete response:", res); // Log the response
+                    if (res) {
+                        getUserList(currentPage, pageSize);
+                        notification.success({ message: 'User deleted successfully.' });
+                    } else {
+                        notification.error({ message: 'Failed to delete user.' });
+                    }
+                } catch (error) {
+                    notification.error({ message: 'Failed to delete user.', description: error.message });
                 }
             },
         });
@@ -211,7 +217,7 @@ export default function UserPage() {
                         width="90%"
                         style={{ maxWidth: '600px' }} // Set max-width for larger screens
                     >
-                        <div className="p-4">
+                        <div className="p-4" >
                             <Row gutter={[16, 16]} style={{ paddingBottom: '10px' }}>
                                 <Col xs={24} sm={12}>
                                     <Input
@@ -267,7 +273,7 @@ export default function UserPage() {
                                                 onChange={(e) => setState({ ...state, password: e.target.value })}
                                             />
                                         </Col>
-                                        <Col xs={24} sm={12}>
+                                        <Col xs={24} sm={12} style={{ paddingBottom: '10px' }}>
                                             <Input.Password
                                                 placeholder="Confirm Password"
                                                 value={state.password_confirmation}

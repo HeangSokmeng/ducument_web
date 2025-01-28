@@ -11,6 +11,7 @@ import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import UnauthorizedPage from "./pages/NotFound/UnauthorizedPage";
 import RolePage from "./pages/Role/RolePage";
 import UserPage from "./pages/User/UserPage";
+import DocumentDisplay from "./pages/views/doc";
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
         </Route>
         {/* 404 Route */}
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/documentDisplay" element={<DocumentDisplay />} />
       </Routes>
     </BrowserRouter>
   );
