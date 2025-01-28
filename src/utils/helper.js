@@ -1,30 +1,53 @@
 import axios from "axios";
 import { getAccessToken } from "../store/profile.store";
-import { Config } from "./config";
+import { Config } from "../utils/config";
 
 export const request = async (url = "", method = "GET", data = {}, headers = {}) => {
-    const tokenExpiry = localStorage.getItem('tokenExpiry');
-    if (tokenExpiry && new Date() >= new Date(tokenExpiry)) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('tokenExpiry');
-        window.location.href = '/login';
+    if (!isTokenValid()) {
+        handleTokenExpiration();
         return;
     }
+
     try {
-        var access_token = await getAccessToken();
-        const response = await axios({
+        const access_token = await getAccessToken();
+        const isFormData = data instanceof FormData;
+        
+        const config = {
             url: Config.base_url + url,
             method,
-            data: method !== "GET" ? data : {},
             headers: {
-                "Content-Type": "application/json",
-                ...headers,
+                ...(isFormData ? {} : { "Content-Type": "application/json" }),
                 Authorization: `Bearer ${access_token}`,
+                ...headers
             },
-            params: method === "GET" ? data : {},
-        });
+            ...(method === "GET" ? { params: data } : { data }),
+            ...(isFormData && { transformRequest: [(data) => data] })
+        };
+
+        const response = await axios(config);
         return response.data;
     } catch (error) {
-        throw error.response ? error.response.data : error;
+        logError(url, method, error);
+        throw error.response?.data || error;
     }
+};
+
+const isTokenValid = () => {
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    return !(tokenExpiry && new Date() >= new Date(tokenExpiry));
+};
+
+const handleTokenExpiration = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiry');
+    window.location.href = '/login';
+};
+
+const logError = (url, method, error) => {
+    console.error('Request error:', {
+        url,
+        method,
+        error: error.response?.data || error.message,
+        status: error.response?.status
+    });
 };

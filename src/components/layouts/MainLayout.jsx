@@ -1,12 +1,14 @@
 import {
+    BookOutlined,
     DownOutlined,
+    FileAddOutlined,
     HomeOutlined,
+    LockOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     QuestionCircleOutlined,
-    TeamOutlined,
     UserDeleteOutlined,
-    UsergroupDeleteOutlined,
+    UsergroupDeleteOutlined
 } from "@ant-design/icons";
 import { Button, Dropdown, Layout, Menu, Modal, theme } from "antd";
 import { useState } from "react";
@@ -35,37 +37,37 @@ const MainLayout = () => {
             key: "home",
             icon: <HomeOutlined />,
             label: "Home",
-            roles: ["superadmin", "admin"],
+            roles: ["superadmin", "admin", "teacher"],
         },
         {
             key: "author",
             icon: <UsergroupDeleteOutlined />,
             label: "Author",
-            roles: ["superadmin", "admin"],
+            roles: ["superadmin", "admin", "teacher"],
         },
         {
             key: "user",
             icon: <UserDeleteOutlined />,
             label: "User",
-            roles: ["superadmin"],
+            roles: ["superadmin", "admin"],
         },
         {
             key: "role",
-            icon: <TeamOutlined />,
+            icon: <LockOutlined />,
             label: "Role",
-            roles: ["superadmin"],
+            roles: ["superadmin", "admin"],
         },
         {
             key: "category",
-            icon: <TeamOutlined />,
+            icon: <BookOutlined />,
             label: "Category",
-            roles: ["superadmin"],
+            roles: ["superadmin", "admin", "teacher"],
         },
         {
             key: "documentation",
-            icon: <TeamOutlined />,
+            icon: <FileAddOutlined />,
             label: "Documentation",
-            roles: ["superadmin"],
+            roles: ["superadmin", "admin", "teacher"],
         },
 
     ].filter((item) => !item.roles || item.roles.includes(role));
@@ -98,10 +100,9 @@ const MainLayout = () => {
             },
             centered: true,
             closable: false,
-            className: "custom-modal",
+            className: "custom-modal center-buttons",
         });
     };
-
     const dropdownMenuItems = [
         { key: "1", label: "Profile" },
         { key: "2", label: "Settings" },
@@ -142,7 +143,7 @@ const MainLayout = () => {
             </Sider>
 
             <Layout className={styles.mainContent}>
-                <div className={styles.header} style={{backgroundColor:'#0080ff'}}>
+                <div className={styles.header} style={{ backgroundColor: '#0080ff' }}>
                     <div className={styles.headerContent}>
                         <div className={styles.logoContainer}>
                             <img src={logoAdmin} alt="Logo" className={styles.logo} />

@@ -16,6 +16,8 @@ const Navigation = () => {
                     <Link to="/user">User Management</Link>
                     <Link to="/admin/dashboard">Admin Dashboard</Link>
                     <Link to="/superadmin/dashboard">Super Admin Dashboard</Link>
+                    <Link to="/teacher/dashboard">Teacher Dashboard</Link>
+
                     {/* Add other options specific to superadmin */}
                 </>
             )}
@@ -23,7 +25,16 @@ const Navigation = () => {
             {/* Options for admin, but hide some options */}
             {userRole === 'admin' && (
                 <>
+                    <Link to="/user">User Management</Link>
                     <Link to="/admin/dashboard">Admin Dashboard</Link>
+                    <Link to="/superadmin/dashboard">Super Admin Dashboard</Link>
+                    <Link to="/teacher/dashboard">Teacher Dashboard</Link>
+                    {/* Other options available to admin, but not user management or superadmin options */}
+                </>
+            )}
+            {userRole === 'teacher' && (
+                <>
+                    <Link to="/teacher/dashboard">Teacher Dashboard</Link>
                     {/* Other options available to admin, but not user management or superadmin options */}
                 </>
             )}

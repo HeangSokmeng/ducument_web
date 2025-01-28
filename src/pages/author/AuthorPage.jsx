@@ -29,7 +29,7 @@ export default function AuthorPage() {
 
     useEffect(() => {
         getList(currentPage, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, pageSize]);
 
     useEffect(() => {
@@ -69,7 +69,7 @@ export default function AuthorPage() {
             okType: 'danger',
             cancelText: 'No',
             onOk: async () => {
-                const res = await request(`author/${item.auth_id}`, "delete");
+                const res = await request(`superadmin/author/${item.auth_id}`, "delete");
                 if (res) {
                     getList(currentPage, pageSize);
                     notification.success({ message: 'Author deleted successfully.' });
@@ -109,7 +109,7 @@ export default function AuthorPage() {
             auth_email: state.auth_email,
             auth_bio: state.auth_bio,
         };
-        const res = await request(`author/${state.auth_id}`, "put", data);
+        const res = await request(`superadmin/author/${state.auth_id}`, "put", data);
         if (res) {
             notification.success({ message: 'Author updated successfully!' });
             getList(currentPage, pageSize);
@@ -152,7 +152,7 @@ export default function AuthorPage() {
             auth_email: state.auth_email,
             auth_bio: state.auth_bio,
         };
-        const res = await request("author", "post", data);
+        const res = await request("superadmin/author", "post", data);
         if (res) {
             getList(currentPage, pageSize);
             onCloseModal();
@@ -178,7 +178,7 @@ export default function AuthorPage() {
                                 style={{ width: '300px' }}
                             />
                         </Col>
-                        <Col span={6} style={{paddingLeft:'150px'}}>
+                        <Col span={6} style={{ paddingLeft: '150px' }}>
                             <Button
                                 type="primary"
                                 icon={<PlusOutlined />}

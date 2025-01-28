@@ -2,8 +2,9 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Input, Modal, notification, Row, Space, Table } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useEffect, useState } from 'react';
-import useLoading from '../../Hook/useLoading'; // Assuming you have a custom hook for loading states
-import { request } from '../../utils/helper'; // Your helper for API calls
+import { Atom } from 'react-loading-indicators';
+import useLoading from '../../Hook/useLoading'; // Custom hook for loading states
+import { request } from '../../utils/helper'; // Helper for API calls
 
 const CategoryPage = () => {
     const [categories, setCategories] = useState([]); // State for categories
@@ -14,7 +15,7 @@ const CategoryPage = () => {
 
     useEffect(() => {
         fetchCategories(); // Fetch categories on component mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchCategories = async () => {
@@ -26,7 +27,6 @@ const CategoryPage = () => {
             } else {
                 notification.error({ message: 'Failed to fetch categories.' });
             }
-        // eslint-disable-next-line no-unused-vars
         } catch (error) {
             notification.error({ message: 'Error fetching categories.' });
         }
@@ -38,31 +38,43 @@ const CategoryPage = () => {
             const { id, name, description } = categoryForm;
             if (id) {
                 // Update category
-                await request(`superadmin/category/${id}`, 'PUT', { cate_name: name, cate_description: description });
+                await request(`superadmin/category/${id}`, 'PUT', {
+                    cate_name: name,
+                    cate_description: description,
+                });
             } else {
                 // Create new category
-                await request('superadmin/category', 'POST', { cate_name: name, cate_description: description });
+                await request('superadmin/category', 'POST', {
+                    cate_name: name,
+                    cate_description: description,
+                });
             }
             notification.success({ message: 'Category saved successfully!' });
             fetchCategories(); // Refresh categories list
             handleModalClose();
-        // eslint-disable-next-line no-unused-vars
         } catch (error) {
             notification.error({ message: 'Error saving category.' });
         }
     };
 
     const handleEditCategory = (category) => {
-        setCategoryForm({ id: category.id, name: category.cate_name, description: category.cate_description });
+        setCategoryForm({
+            id: category.cate_id, // Use cate_id from API
+            name: category.cate_name,
+            description: category.cate_description,
+        });
         setIsModalVisible(true);
     };
 
     const handleDeleteCategory = async (id) => {
+        if (!id) {
+            notification.error({ message: 'Invalid category ID.' });
+            return;
+        }
         try {
             await request(`superadmin/category/${id}`, 'DELETE');
             notification.success({ message: 'Category deleted successfully!' });
             fetchCategories(); // Refresh categories list
-        // eslint-disable-next-line no-unused-vars
         } catch (error) {
             notification.error({ message: 'Error deleting category.' });
         }
@@ -82,12 +94,12 @@ const CategoryPage = () => {
     const columns = [
         {
             title: 'Category Name',
-            dataIndex: 'cate_name',
+            dataIndex: 'cate_name', // Matches the API key
             key: 'cate_name',
         },
         {
             title: 'Description',
-            dataIndex: 'cate_description',
+            dataIndex: 'cate_description', // Matches the API key
             key: 'cate_description',
         },
         {
@@ -96,7 +108,10 @@ const CategoryPage = () => {
             render: (_, category) => (
                 <Space size="middle">
                     <Button icon={<EditOutlined />} onClick={() => handleEditCategory(category)} />
-                    <Button icon={<DeleteOutlined />} onClick={() => handleDeleteCategory(category.id)} />
+                    <Button
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeleteCategory(category.cate_id)} // Use cate_id here
+                    />
                 </Space>
             ),
         },
@@ -104,54 +119,59 @@ const CategoryPage = () => {
 
     return (
         <div className="author-page-container p-6 bg-gray-50">
-            <Row justify="space-between" style={{ marginBottom: '16px' }}>
-                <Col>
-                    <h2>Category Management</h2>
-                </Col>
-                <Col>
-
-                </Col>
-            </Row>
-            <Row gutter={[16, 16]} className="mb-4">
-                <Col xs={24} sm={18}>
-                    <Input
-                        placeholder="Search categories..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ width: '300px' }}
+            {loading ? (
+                <div className="loader-container flex justify-center items-center min-h-screen">
+                    <Atom color="#161074" size="medium" text="" textColor="#e80000" />
+                </div>
+            ) : (
+                <>
+                    <Row justify="space-between" style={{ marginBottom: '16px' }}>
+                        <Col>
+                            <h2>Category Management</h2>
+                        </Col>
+                    </Row>
+                    <Row gutter={[16, 16]} className="mb-4">
+                        <Col xs={24} sm={18}>
+                            <Input
+                                placeholder="Search categories..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{ width: '300px' }}
+                            />
+                        </Col>
+                        <Col xs={24} sm={6} style={{ textAlign: 'right' }}>
+                            <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)}>
+                                Add Category
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Table
+                        columns={columns}
+                        dataSource={filteredCategories} // Use the filtered categories
+                        rowKey="cate_id" // Matches the primary key in the API response
+                        loading={loading}
+                        pagination={{ pageSize: 10 }}
                     />
-                </Col>
-                <Col xs={24} sm={6} style={{ textAlign: 'right' }}>
-                    <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)}>
-                        Add Category
-                    </Button>
-                </Col>
-            </Row>
-            <Table
-                columns={columns}
-                dataSource={filteredCategories} // Use the filtered categories
-                rowKey="id"
-                loading={loading}
-                pagination={{ pageSize: 10 }}
-            />
-            <Modal
-                title={categoryForm.id ? 'Edit Category' : 'Add Category'}
-                open={isModalVisible}  // Change 'visible' to 'open'
-                onOk={handleAddOrEditCategory}
-                onCancel={handleModalClose}
-            >
-                <Input
-                    placeholder="Category Name"
-                    value={categoryForm.name}
-                    onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
-                />
-                <TextArea
-                    placeholder="Description"
-                    value={categoryForm.description}
-                    onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
-                    style={{ marginTop: '8px' }}
-                />
-            </Modal>
+                    <Modal
+                        title={categoryForm.id ? 'Edit Category' : 'Add Category'}
+                        open={isModalVisible} // Change 'visible' to 'open'
+                        onOk={handleAddOrEditCategory}
+                        onCancel={handleModalClose}
+                    >
+                        <Input
+                            placeholder="Category Name"
+                            value={categoryForm.name}
+                            onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+                        />
+                        <TextArea
+                            placeholder="Description"
+                            value={categoryForm.description}
+                            onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
+                            style={{ marginTop: '8px' }}
+                        />
+                    </Modal>
+                </>
+            )}
         </div>
     );
 };
